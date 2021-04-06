@@ -75,6 +75,7 @@ class Invader {
     this.y = y;
     this.width = width;
     this.height = height;
+    this.xdir = 0;
   }
 
   drawInvader() {
@@ -83,7 +84,7 @@ class Invader {
   }
 
   moveInvader() {
-
+    this.x = this.x + 1;
   }
 
   shootInvader() {
@@ -103,25 +104,27 @@ class Projectile {
     this.height = 20;
     this.x = x;
     this.y = y;
-    // this.x = player.x + (player.width / 2);
-    // this.y = player.y;
     this.speed = 5;
   }
 
   drawShot() {
     ctx.beginPath();
     ctx.fillStyle = 'black';
-    ctx.arc(this.x, this.y, 6, 0, Math.PI * 2);
+    ctx.arc(this.x, this.y, 7, 0, Math.PI * 2);
     ctx.fill();
     ctx.closePath;
   }
 
   moveShot() {
     // this.drawing();
-    this.y -= 5;
+    this.y = this.y - 2;
   }
 
-  move(){
-    this.y -= this.speed;
+  shotHits(invader) {
+    if(this.x === invader.x + 28 && this.y === invader.y + invader.height) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

@@ -12,7 +12,7 @@ startButton.addEventListener('click', () => {
 let newGame = new Game(0, 0, canvas.width, canvas.height);
 let player = new Player(canvas.width / 2, 550, 80, 80);
 let invaders = [];
-let bullet = new Projectile(canvas.width / 2, canvas.height / 2);
+let shots = [];
 
 for(let i = 0; i < 8; i++) {
   invaders[i] = new Invader(i * 75 + 20, 50, 56, 56);
@@ -25,13 +25,24 @@ function startGame() {
 function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   newGame.drawBoard();
-  player.drawPlayer();  
+  player.drawPlayer();
+  
+  for(let i = 0; i < shots.length; i++) {
+    shots[i].drawShot();
+    shots[i].moveShot();
+    for(let j = 0; j < invaders.length; j++) {
+      if(shots[i].shotHits(invaders[j])) {
+          // shots[i].splice(i, 1);
+          // invaders[j].splice(i, 1);
+          console.log("It hit");
+        }
+        
+      }
+    }
+
   for(let i = 0; i < invaders.length; i++) {
     invaders[i].drawInvader();
   }
-  bullet.drawShot();
-  bullet.moveShot();
-  // invaders.drawInvader();
 }
 
 document.addEventListener("keydown", (event) => {
@@ -45,8 +56,8 @@ document.addEventListener("keydown", (event) => {
       break; 
 
     case "Space":
-      player.shoot();
-      // ctx.clearRect(0, 0, canvas.width, canvas.height);
+      let shot = new Projectile(player.x + player.width/2, 550);
+      shots.push(shot);
       break; 
   }
 });
