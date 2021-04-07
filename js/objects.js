@@ -6,11 +6,52 @@ class Game {
     this.y = y;
     this.width = width;
     this.height = height;
-    this.score = 0;
+    this.score = 10;
   }
 
   drawBoard() {
     ctx.drawImage(this.bg, 0, 0, this.width, this.height);
+  }
+
+  drawFooter() {
+    ctx.font = "45px Comic Sans MS";
+    ctx.fillStyle = 'white';
+    ctx.fillText(this.score, 25, 680);
+    ctx.fillText(`${player.shield}`, 640, 680);
+  }
+  
+  createInvadersGroup(invaderArray) {
+    let edge = false;
+
+    for(let i = 0; i < invaderArray.length; i++) {
+      invaderArray[i].drawInvader();
+      invaderArray[i].moveInvader();
+
+      if(invaderArray[i].x > canvas.width - invaderArray[i].width || invaderArray[i].x === 0) {
+        edge = true;
+      }
+    }
+    if(edge) {
+      for(let i = 0; i < invaderArray.length; i++) {
+        invaderArray[i].moveDown();
+      }
+    }
+  }
+
+  shotHits(shot, invader) {
+    return !(
+      shot.bottom() < invader.top() ||
+      shot.top() > invader.bottom() ||
+      shot.right() < invader.left() ||
+      shot.left() > invader.right()
+    );
+
+    // if(this.x === invader.x + 28 && this.y === invader.y + invader.height) {
+    //   newGame.score += 10;
+    //   return true;
+    // } else {
+    //   return false;
+    // }
   }
 
   gameOver() {
@@ -27,9 +68,9 @@ class Player {
     this.playerImg.src = "./img/player-img.png";
     this.width = width;
     this.height = height;
-    this.x = x - width/2;
+    this.x = x - width;
     this.y = y;
-    this.shield = 0;
+    this.shield = 5;
   }
 
   drawPlayer() {
@@ -54,6 +95,17 @@ class Player {
     projectile.move();
   }
 
+  left() {
+    return this.x;
+  }
+  right() {
+    return this.x + this.width;
+  }
+  
+  top() {
+    return this.y;
+  }
+
   getDamage() {
     
   }
@@ -64,35 +116,6 @@ class Player {
     } else {
       return false;
     }
-  }
-}
-
-class Invader {
-  constructor(x, y, width, height) {
-    this.invaderImg = new Image();
-    this.invaderImg.src = "./img/enemy-1-img.png";
-    this.x = x;
-    this.y = y;
-    this.width = width;
-    this.height = height;
-    this.xdir = 0;
-  }
-
-  drawInvader() {
-    ctx.drawImage(this.invaderImg, this.x, this.y, this.width, this.height);
-    // ctx.fillRect(this.x, this.y, this.width, this.height);
-  }
-
-  moveInvader() {
-    this.x = this.x + 1;
-  }
-
-  shootInvader() {
-
-  }
-
-  isInvaderDead() {
-
   }
 }
 
@@ -107,24 +130,45 @@ class Projectile {
     this.speed = 5;
   }
 
+  clearShot(){
+    ctx.clearRect(0, 0, ctx.width, ctx.height);
+    // this.width = 0;
+    // this.height = 0;
+  }
+
   drawShot() {
-    ctx.beginPath();
     ctx.fillStyle = 'black';
-    ctx.arc(this.x, this.y, 7, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.closePath;
+    ctx.fillRect(this.x, this.y, 6, 15);
   }
 
   moveShot() {
-    // this.drawing();
-    this.y = this.y - 2;
+    this.y -= 2;
   }
 
-  shotHits(invader) {
-    if(this.x === invader.x + 28 && this.y === invader.y + invader.height) {
-      return true;
-    } else {
-      return false;
+  invaderShot() {
+    this.y += 2;
+  }
+  
+  bottom() {
+    if(this === undefined) {
+      return 0;
+    } else { 
+      return this.y + this.height;
+    }
+  }
+
+  left() {
+    return this.x;
+  }
+  right() {
+    return this.x + this.width;
+  }
+  
+  top() {
+    if(this) {
+      return this.y;
+    } else { 
+      return 0;
     }
   }
 }
