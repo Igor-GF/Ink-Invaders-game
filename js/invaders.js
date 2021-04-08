@@ -7,6 +7,7 @@ class Invader {
     this.width = width;
     this.height = height;
     this.xDirection = -1;
+    this.speed = 2;
   }
 
   drawInvader() {
@@ -14,7 +15,7 @@ class Invader {
   }
 
   moveInvader() {
-    this.x = this.x + this.xDirection;
+    this.x += this.xDirection * this.speed;
   }
 
   moveDown(){
@@ -22,16 +23,8 @@ class Invader {
     this.y += this.height;
   };
 
-  shootInvader() {
-
-  }
-
   top() {
-    if (this) {
-      return this.y;
-    } else {
-      return 0;
-    }
+    return this.y;
   }
 
   left() {
@@ -42,11 +35,7 @@ class Invader {
   }
   
   bottom() {
-    if (this) {
-      return this.y + this.height;
-    } else {
-      return 0;
-    }
+    return this.y + this.height;
   }
 
   invadersGetToTheBottom() {

@@ -26,15 +26,11 @@ class Game {
     for(let i = 0; i < invaderArray.length; i++) {
       invaderArray[i].drawInvader();
       invaderArray[i].moveInvader();
-      // console.log(`it walks.. ${invaderSteps}`);
       
-      if(countFrames % 100 === 0) {
+      if(countFrames % 50 === 0) {
         edge = true;
       }
-      // if(invaderArray[i].x > canvas.width - invaderArray[i].width || invaderArray[i].x === 0) {
-      //   invaderSteps += 1;
-      //   edge = true;
-      // }
+      
     }
     if(edge) {
       for(let i = 0; i < invaderArray.length; i++) {
@@ -49,7 +45,6 @@ class Game {
       shot.top() > invader.bottom() ||
       shot.right() < invader.left() ||
       shot.left() > invader.right()
-      // invader.bottom() !== canvas.height ||
     )
   }
 
@@ -63,6 +58,7 @@ class Game {
   }
 
   youWon() {
+    youWonMusic.play();
     ctx.drawImage(this.bg, 0, 0, this.width, this.height);
     ctx.font = "75px Segoe Script";
     ctx.fillStyle = 'black';
@@ -70,12 +66,12 @@ class Game {
   }
 
   gameOver() {
+    gameOvervoice.play();
     ctx.drawImage(this.bg, 0, 0, this.width, this.height);
     ctx.font = "75px Segoe Script";
     ctx.fillStyle = 'black';
     ctx.fillText("GAME OVER", canvas.width/8, canvas.height/2);
   }
-
 }
 
 class Player {
@@ -146,7 +142,6 @@ class Projectile {
     this.height = 20;
     this.x = x;
     this.y = y;
-    this.speed = 5;
   }
 
   clearShot(){
@@ -162,11 +157,6 @@ class Projectile {
     this.drawShot();
     this.y -= 5;
   }
-
-  invaderShoots() {
-    this.drawShot();
-    this.y += 2;
-  }
   
   bottom() {
     return this.y + this.height;
@@ -181,5 +171,21 @@ class Projectile {
   
   top() {
     return this.y;
+  }
+}
+
+class InvaderProjectile extends Projectile {
+  constructor(x, y) {
+    super(x, y);
+  }
+
+  drawShot() {
+    ctx.fillStyle = 'red';
+    ctx.fillRect(this.x, this.y, 6, 15);
+  }
+
+  moveShot() {
+    this.drawShot();
+    this.y -= 3;
   }
 }

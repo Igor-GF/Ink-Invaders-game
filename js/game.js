@@ -3,12 +3,29 @@ const ctx = canvas.getContext('2d');
   
 canvas.width = 700;
 canvas.height = 700;
- 
-let startButton = document.getElementById('start-game-btn');
-startButton.addEventListener('click', () => {
-  // startGame();
-  animate();
-});
+
+let gameMusic = document.createElement('audio');
+gameMusic.src = "./sounds/game-music.mp3";
+gameMusic.volume = 0.4;
+
+let playerShootsSound = document.createElement('audio');
+playerShootsSound.src = './sounds/sound-effect-shot-01.mp3';
+playerShootsSound.volume = 0.6;
+
+let invaderShootsSound = document.createElement('audio');
+invaderShootsSound.src = './sounds/sound-effect-shot-02.mp3';
+invaderShootsSound.volume = 0.5;
+
+let invaderDies = document.createElement('audio');
+invaderDies.src = './sounds/grunt.mp3';
+
+let gameOvervoice = document.createElement('audio');
+gameOvervoice.src = './sounds/help-us-human.mp3';
+gameOvervoice.volume = 0.5;
+
+let youWonMusic = document.createElement('audio');
+youWonMusic.src = './sounds/rock-metal.mp3';
+youWonMusic.volume = 0.4;
 
 let countFrames = 0;
 let gameOver = false;
@@ -19,6 +36,12 @@ let invadersTwo = [];
 let invadersThree = [];
 let shots = [];
 let invaderShoot = [];
+
+let startButton = document.getElementById('start-game-btn');
+startButton.addEventListener('click', () => {
+  animate();
+  gameMusic.play();
+});
 
 for(let i = 0; i < 8; i++) {
   invaders[i] = new Invader(i * 75 + 20, 20, 56, 56);
@@ -31,10 +54,6 @@ for(let i = 0; i < 8; i++) {
 for(let i = 0; i < 8; i++) {
   invadersThree[i] = new InvaderThree(i * 75 + 20, 190, 56, 56);
 }
-
-// function startGame() {
-//   setInterval(animate, 20);
-// }
 
 function animate() {
   
@@ -49,23 +68,23 @@ function animate() {
   shots.forEach((element) => {
     element.moveShot();
   });
+  
+  if(countFrames % 120 === 0) {
+    let shot = new InvaderProjectile(350, 0);
+    invaderShoot.push(shot);
+  }
 
-  // if(countFrames % 500 === 0) {
-  //   let shot = new Projectile(350, 0);
-  //   invaderShoot.push(shot);
-  //   invaderShoot.forEach((element) => {
-  //     element.invaderShoots();
-  //   })
-  // }
+  invaderShoot.forEach((element) => {
+    element.moveShot();
+  });    
   
   invaders.forEach((enemy, enemyIndex) => {
     shots.forEach((element, index) => {
       if(newGame.shotHits(element, enemy)) {
         newGame.score += 3;
-        // console.log(shots[index]);
+        invaderDies.play();
         shots.splice(index, 1);
         invaders.splice(enemyIndex, 1);
-        // console.log("It hit");
       }
     });
   });
@@ -74,10 +93,9 @@ function animate() {
     shots.forEach((element, index) => {
       if(newGame.shotHits(element, enemy)) {
         newGame.score += 3;
-        // console.log(shots[index]);
+        invaderDies.play();
         shots.splice(index, 1);
         invadersTwo.splice(enemyIndex, 1);
-        // console.log("It hit");
       }
     });
   });
@@ -86,10 +104,9 @@ function animate() {
     shots.forEach((element, index) => {
       if(newGame.shotHits(element, enemy)) {
         newGame.score += 3;
-        // console.log(shots[index]);
+        invaderDies.play();
         shots.splice(index, 1);
         invadersThree.splice(enemyIndex, 1);
-        // console.log("It hit");
       }
     });
   });
@@ -136,15 +153,11 @@ document.addEventListener("keydown", (event) => {
     case "ArrowRight":
       player.moveRight();
       break; 
-
-    // case "Space":
-    //   let shot = new Projectile(player.x + player.width/2, player.y);
-    //   shots.push(shot);
-    //   break; 
   }
 });
 
 document.addEventListener("click", () => {
   let shot = new Projectile(player.x + player.width/2, player.y);
   shots.push(shot);
+  playerShootsSound.play();
 });
