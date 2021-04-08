@@ -7,12 +7,23 @@
   <title>Space Invaders</title>
   <link rel="stylesheet" href="./css/styles.css"/>
 </head>
-<body>
+<body> 
+  <section class="main-container">
+    <div class="bg-start">
+      <div>
+        <img src="./img/ink-invaders-logo.png" alt="Ink Invaders logo" class="game-logo" />
+      </div>  
+      <div>
+        <button id="start-game-btn"><img src="./img/start-button.png"></button>
+      </div>
+    </div>
 
+    <div class="canvas">
+      <canvas width="700" height="500"></canvas>
+    </div>
+  </section>
   
-  <canvas width="700" height="500"></canvas>
-  <button id="start-game-btn" src="./img/bg-sheet.png">START GAME</button>
-
+  
   <script src="./js/objects.js"></script>
   <script src="./js/invaders.js"></script>
   <script src="./js/game.js"></script>

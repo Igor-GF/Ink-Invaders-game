@@ -6,7 +6,7 @@ class Game {
     this.y = y;
     this.width = width;
     this.height = height;
-    this.score = 10;
+    this.score = 0;
   }
 
   drawBoard() {
@@ -14,7 +14,7 @@ class Game {
   }
 
   drawFooter() {
-    ctx.font = "45px Comic Sans MS";
+    ctx.font = "45px Segoe Script";
     ctx.fillStyle = 'white';
     ctx.fillText(this.score, 25, 680);
     ctx.fillText(`${player.shield}`, 640, 680);
@@ -22,14 +22,19 @@ class Game {
   
   createInvadersGroup(invaderArray) {
     let edge = false;
-
+    
     for(let i = 0; i < invaderArray.length; i++) {
       invaderArray[i].drawInvader();
       invaderArray[i].moveInvader();
-
-      if(invaderArray[i].x > canvas.width - invaderArray[i].width || invaderArray[i].x === 0) {
+      // console.log(`it walks.. ${invaderSteps}`);
+      
+      if(countFrames % 100 === 0) {
         edge = true;
       }
+      // if(invaderArray[i].x > canvas.width - invaderArray[i].width || invaderArray[i].x === 0) {
+      //   invaderSteps += 1;
+      //   edge = true;
+      // }
     }
     if(edge) {
       for(let i = 0; i < invaderArray.length; i++) {
@@ -44,20 +49,31 @@ class Game {
       shot.top() > invader.bottom() ||
       shot.right() < invader.left() ||
       shot.left() > invader.right()
-    );
+      // invader.bottom() !== canvas.height ||
+    )
+  }
 
-    // if(this.x === invader.x + 28 && this.y === invader.y + invader.height) {
-    //   newGame.score += 10;
-    //   return true;
-    // } else {
-    //   return false;
-    // }
+  playerGetHit(shot) {
+    return !(
+      player.bottom() < shot.top() ||
+      player.top() > shot.bottom() ||
+      player.right() < shot.left() ||
+      player.left() > shot.right()
+    )      
+  }
+
+  youWon() {
+    ctx.drawImage(this.bg, 0, 0, this.width, this.height);
+    ctx.font = "75px Segoe Script";
+    ctx.fillStyle = 'black';
+    ctx.fillText("YOU ROCK!", canvas.width/5, canvas.height/2);
   }
 
   gameOver() {
-    // if(Player.isDead()) {
-
-    // }
+    ctx.drawImage(this.bg, 0, 0, this.width, this.height);
+    ctx.font = "75px Segoe Script";
+    ctx.fillStyle = 'black';
+    ctx.fillText("GAME OVER", canvas.width/8, canvas.height/2);
   }
 
 }
@@ -68,9 +84,10 @@ class Player {
     this.playerImg.src = "./img/player-img.png";
     this.width = width;
     this.height = height;
-    this.x = x - width;
+    this.x = x;
     this.y = y;
-    this.shield = 5;
+    this.shield = 0;
+    this.speed = 8;
   }
 
   drawPlayer() {
@@ -79,25 +96,29 @@ class Player {
 
   moveLeft() {
     if(this.x > 0) {
-      this.x -= 7;
+      this.x -= this.speed;
     }
   }
 
   moveRight() {
     if(this.x + this.width < canvas.width) {
-      this.x += 7;
+      this.x += this.speed;
     }
   }
 
   shoot() {
     const projectile = new Projectile();
-    console.log(projectile);
     projectile.move();
+  }
+
+  bottom() {
+    return this.y + this.height;
   }
 
   left() {
     return this.x;
   }
+
   right() {
     return this.x + this.width;
   }
@@ -107,7 +128,7 @@ class Player {
   }
 
   getDamage() {
-    
+    this.shield -= 1;
   }
 
   isDead() {
@@ -121,8 +142,6 @@ class Player {
 
 class Projectile {
   constructor(x, y) {
-    // this.img = new Image();
-    // this.img.src = './img/enemy-2-img.png';
     this.width = 20;
     this.height = 20;
     this.x = x;
@@ -132,8 +151,6 @@ class Projectile {
 
   clearShot(){
     ctx.clearRect(0, 0, ctx.width, ctx.height);
-    // this.width = 0;
-    // this.height = 0;
   }
 
   drawShot() {
@@ -142,19 +159,17 @@ class Projectile {
   }
 
   moveShot() {
-    this.y -= 2;
+    this.drawShot();
+    this.y -= 5;
   }
 
-  invaderShot() {
+  invaderShoots() {
+    this.drawShot();
     this.y += 2;
   }
   
   bottom() {
-    if(this === undefined) {
-      return 0;
-    } else { 
-      return this.y + this.height;
-    }
+    return this.y + this.height;
   }
 
   left() {
@@ -165,10 +180,6 @@ class Projectile {
   }
   
   top() {
-    if(this) {
-      return this.y;
-    } else { 
-      return 0;
-    }
+    return this.y;
   }
 }

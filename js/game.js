@@ -11,8 +11,9 @@ startButton.addEventListener('click', () => {
 });
 
 let countFrames = 0;
+let gameOver = false;
 let newGame = new Game(0, 0, canvas.width, canvas.height);
-let player = new Player(canvas.width / 2 - 40, 560, 80, 80);
+let player = new Player((canvas.width / 2) - 40, 560, 80, 80);
 let invaders = [];
 let invadersTwo = [];
 let invadersThree = [];
@@ -36,7 +37,7 @@ for(let i = 0; i < 8; i++) {
 // }
 
 function animate() {
-  requestAnimationFrame(animate);
+  
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   newGame.drawBoard();
   newGame.drawFooter();
@@ -45,18 +46,85 @@ function animate() {
   newGame.createInvadersGroup(invadersTwo);
   newGame.createInvadersGroup(invadersThree);
 
-  for(let i = 0; i < shots.length; i++) {
-    shots[i].drawShot();
-    shots[i].moveShot();
-    for(let j = 0; j < invaders.length; j++) {
-      if(newGame.shotHits(shots[i], invaders[j])) {
-        console.log(shots[i]);
-        shots.splice(i, 1);
-        invaders.splice(j, 1);
+  shots.forEach((element) => {
+    element.moveShot();
+  });
+
+  // if(countFrames % 500 === 0) {
+  //   let shot = new Projectile(350, 0);
+  //   invaderShoot.push(shot);
+  //   invaderShoot.forEach((element) => {
+  //     element.invaderShoots();
+  //   })
+  // }
+  
+  invaders.forEach((enemy, enemyIndex) => {
+    shots.forEach((element, index) => {
+      if(newGame.shotHits(element, enemy)) {
+        newGame.score += 3;
+        // console.log(shots[index]);
+        shots.splice(index, 1);
+        invaders.splice(enemyIndex, 1);
         // console.log("It hit");
       }
-    }
+    });
+  });
+  
+  invadersTwo.forEach((enemy, enemyIndex) => {
+    shots.forEach((element, index) => {
+      if(newGame.shotHits(element, enemy)) {
+        newGame.score += 3;
+        // console.log(shots[index]);
+        shots.splice(index, 1);
+        invadersTwo.splice(enemyIndex, 1);
+        // console.log("It hit");
+      }
+    });
+  });
+
+  invadersThree.forEach((enemy, enemyIndex) => {
+    shots.forEach((element, index) => {
+      if(newGame.shotHits(element, enemy)) {
+        newGame.score += 3;
+        // console.log(shots[index]);
+        shots.splice(index, 1);
+        invadersThree.splice(enemyIndex, 1);
+        // console.log("It hit");
+      }
+    });
+  });
+
+  countFrames += 1;
+
+  if(invaders.length == 0 && invadersTwo.length == 0 && invadersThree.length == 0) {
+    gameOver = true;
+    console.log(`arrays: ${invaders}`);
+    console.log(gameOver);
+    newGame.youWon();
   }
+  
+  invaders.forEach((element) => {
+    if(element.invadersGetToTheBottom()) {
+      newGame.gameOver();
+      gameOver = true;
+    };
+  });
+
+  invadersTwo.forEach((element) => {
+    if(element.invadersGetToTheBottom()) {
+      newGame.gameOver();
+      gameOver = true;
+    };
+  });
+
+  invadersThree.forEach((element) => {
+    if(element.invadersGetToTheBottom()) {
+      newGame.gameOver();
+      gameOver = true;
+    };
+  });
+
+  if(!gameOver) requestAnimationFrame(animate);
 }
 
 document.addEventListener("keydown", (event) => {
@@ -69,9 +137,14 @@ document.addEventListener("keydown", (event) => {
       player.moveRight();
       break; 
 
-    case "Space":
-      let shot = new Projectile(player.x + player.width/2, player.y);
-      shots.push(shot);
-      break; 
+    // case "Space":
+    //   let shot = new Projectile(player.x + player.width/2, player.y);
+    //   shots.push(shot);
+    //   break; 
   }
+});
+
+document.addEventListener("click", () => {
+  let shot = new Projectile(player.x + player.width/2, player.y);
+  shots.push(shot);
 });

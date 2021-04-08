@@ -6,17 +6,15 @@ class Invader {
     this.y = y;
     this.width = width;
     this.height = height;
-    this.xDirection = 1;
+    this.xDirection = -1;
   }
 
   drawInvader() {
     ctx.drawImage(this.invaderImg, this.x, this.y, this.width, this.height);
-    // ctx.fillRect(this.x, this.y, this.width, this.height);
   }
 
   moveInvader() {
     this.x = this.x + this.xDirection;
-    // this.y + this.y + ;
   }
 
   moveDown(){
@@ -49,11 +47,14 @@ class Invader {
     } else {
       return 0;
     }
-    
   }
 
-  isInvaderDead() {
-
+  invadersGetToTheBottom() {
+    if (this.y > player.y) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
 
