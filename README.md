@@ -1,37 +1,23 @@
-## Welcome to GitHub Pages
+# Ink-Invaders 
 
-You can use the [editor on GitHub](https://github.com/Igor-GF/Space-Invaders-style-game/edit/main/README.md) to maintain and preview the content for your website in Markdown files.
+Game project of Ironhack's Web Developer - module 1
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+This first project has as a base structure the 80's Space Invaders game.
 
-### Markdown
+# What the game is about
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+The intention behind this project was to put in pratice the skills learned from the first 2 weeks of Ironhack Bootcamp, which are, the essentials of Javascript, HTML, CSS, DOM manipulation and mainly HTML Canvas.
 
-```markdown
-Syntax highlighted code block
+The result is maybe still not a fun game but the learning process throughout this project was enormous, it does not mean that it will be not improved in a soon future though.
 
-# Header 1
-## Header 2
-### Header 3
+# Further iterations
 
-- Bulleted
-- List
+- Invaders should shoot against the player and the bullet must come from a random invader.
+- The eventListeners need to be fix in the end of the game and for the start button as well.
+- Music and Sounds need to be edit to reposnd better to the commands.
 
-1. Numbered
-2. List
+# Technologies used
 
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/Igor-GF/Space-Invaders-style-game/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+- JavaScript
+- HTML Canvas
+- CSS

@@ -4,16 +4,27 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <link rel="stylesheet" href="./styles.css"/>
-    <rel>
-      <href></href>
-    </rel>
-  </link>
+  <title>Space Invaders</title>
+  <link rel="stylesheet" href="./css/styles.css"/>
 </head>
-<body>
-  <canvas></canvas>
+<body> 
+  <section class="main-container">
+    <div class="bg-start">
+      <div>
+        <img src="./img/ink-invaders-logo.png" alt="Ink Invaders logo" class="game-logo" />
+      </div>  
+      <div>
+        <button id="start-game-btn"><img src="./img/start-button.png"></button>
+      </div>
+    </div>
 
-  <script src="./js/app.js"></script>
+    <div class="canvas">
+      <canvas width="700" height="500"></canvas>
+    </div>
+  </section>
+    
+  <script src="./js/objects.js"></script>
+  <script src="./js/invaders.js"></script>
+  <script src="./js/game.js"></script>
 </body>
 </html>
