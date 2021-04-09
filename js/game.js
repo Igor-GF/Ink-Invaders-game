@@ -69,15 +69,6 @@ function animate() {
     element.moveShot();
   });
   
-  if(countFrames % 120 === 0) {
-    let shot = new InvaderProjectile(350, 0);
-    invaderShoot.push(shot);
-  }
-
-  invaderShoot.forEach((element) => {
-    element.moveShot();
-  });    
-  
   invaders.forEach((enemy, enemyIndex) => {
     shots.forEach((element, index) => {
       if(newGame.shotHits(element, enemy)) {
