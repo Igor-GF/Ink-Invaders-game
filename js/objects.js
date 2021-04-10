@@ -45,7 +45,7 @@ class Game {
       newGame.shield += 1;
     }
   }
-
+  
   shotHits(shot, invader) {
     return !(
       shot.bottom() < invader.top() ||

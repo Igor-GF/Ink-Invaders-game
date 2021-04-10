@@ -159,7 +159,6 @@ function animate() {
       }      
     };
   });
-  
 
   if(invaders.length == 0 && invadersTwo.length == 0 && invadersThree.length == 0) {
     gameOver = true;
