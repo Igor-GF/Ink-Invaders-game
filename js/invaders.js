@@ -7,7 +7,7 @@ class Invader {
     this.width = width;
     this.height = height;
     this.xDirection = -1;
-    this.speed = 2;
+    this.speed = 0.5;
   }
 
   drawInvader() {

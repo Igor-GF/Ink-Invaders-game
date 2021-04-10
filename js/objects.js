@@ -7,6 +7,7 @@ class Game {
     this.width = width;
     this.height = height;
     this.score = 0;
+    this.shield = 0;
   }
 
   drawBoard() {
@@ -17,7 +18,7 @@ class Game {
     ctx.font = "45px Segoe Script";
     ctx.fillStyle = 'white';
     ctx.fillText(this.score, 25, 680);
-    ctx.fillText(`${player.shield}`, 640, 680);
+    ctx.fillText(this.shield, 640, 680);
   }
   
   createInvadersGroup(invaderArray) {
@@ -27,15 +28,21 @@ class Game {
       invaderArray[i].drawInvader();
       invaderArray[i].moveInvader();
       
-      if(countFrames % 50 === 0) {
+      if(countFrames % 150 === 0) {
         edge = true;
       }
-      
     }
+
     if(edge) {
       for(let i = 0; i < invaderArray.length; i++) {
         invaderArray[i].moveDown();
       }
+    }
+  }
+
+  increaseShield() {
+    if(newGame.score === 15 || newGame.score === 30 || newGame.score === 45) {
+      newGame.shield += 1;
     }
   }
 
@@ -48,12 +55,12 @@ class Game {
     )
   }
 
-  playerGetHit(shot) {
+  playerGetHit(player, invaderShot) {
     return !(
-      player.bottom() < shot.top() ||
-      player.top() > shot.bottom() ||
-      player.right() < shot.left() ||
-      player.left() > shot.right()
+      player.bottom() < invaderShot.top() ||
+      player.top() > invaderShot.bottom() ||
+      player.right() < invaderShot.left() ||
+      player.left() > invaderShot.right()
     )      
   }
 
@@ -82,7 +89,6 @@ class Player {
     this.height = height;
     this.x = x;
     this.y = y;
-    this.shield = 0;
     this.speed = 8;
   }
 
@@ -180,12 +186,12 @@ class InvaderProjectile extends Projectile {
   }
 
   drawShot() {
-    ctx.fillStyle = 'red';
+    ctx.fillStyle = 'black';
     ctx.fillRect(this.x, this.y, 6, 15);
   }
 
   moveShot() {
     this.drawShot();
-    this.y -= 3;
+    this.y += 3;
   }
 }
