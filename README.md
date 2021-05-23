@@ -4,7 +4,7 @@ Game project of Ironhack's Web Developer - module 1
 
 This first project has as a base structure the 80's Space Invaders game.
 
-https://igor-gf.github.io/Space-Invaders-style-game/
+https://igor-gf.github.io/Ink-Invaders-game/
 
 # What the game is about
 
