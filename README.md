@@ -8,7 +8,7 @@ https://igor-gf.github.io/Ink-Invaders-game/
 
 # What the game is about
 
-The intention behind this project was to put in pratice the skills learned from the first 2 weeks of Ironhack Bootcamp, which are, the essentials of Javascript, HTML, CSS, DOM manipulation and mainly HTML Canvas.
+The intention behind this project was to put into practice the skills learned from the first 2 weeks of Ironhack Bootcamp, which are, the essentials of Javascript, HTML, CSS, DOM manipulation, and mainly HTML Canvas.
 
 The result is maybe still not a fun game but the learning process throughout this project was enormous, it does not mean that it will be not improved in a soon future though.
 
